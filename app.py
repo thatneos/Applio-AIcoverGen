@@ -21,7 +21,7 @@ sys.path.append(now_dir)
 import rvc.lib.zluda
 
 # Import Tabs
-from tabs.aicovergen import aicovergen
+from tabs.uvr.uvr import uvr_tabs
 from tabs.inference.inference import inference_tab
 from tabs.train.train import train_tab
 from tabs.extra.extra import extra_tab
@@ -79,8 +79,7 @@ with gr.Blocks(
             "[Support](https://discord.gg/urxFjYmYYh) — [GitHub](https://github.com/IAHispano/Applio)"
         )
     )
-    with gr.Tab("AICoverGen"):
-        aicovergen()
+    
     with gr.Tab(i18n("Inference")):
         inference_tab()
 
@@ -98,7 +97,10 @@ with gr.Blocks(
 
     with gr.Tab(i18n("Download")):
         download_tab()
-
+        
+    with gr.Tab("UVR X yt-dlp"):
+        uvr_tabs()
+        
     with gr.Tab(i18n("Report a Bug")):
         report_tab()
 
