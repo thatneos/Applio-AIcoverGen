@@ -19,6 +19,7 @@ stftpitchshift
 soxr
 sox==1.4.1
 yt-dlp
+audio-separator[gpu]
 
 # Machine learning and deep learning
 omegaconf>=2.0.6; sys_platform == 'darwin' 
