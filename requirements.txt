@@ -17,6 +17,8 @@ noisereduce
 pedalboard
 stftpitchshift
 soxr
+sox==1.4.1
+yt-dlp
 
 # Machine learning and deep learning
 omegaconf>=2.0.6; sys_platform == 'darwin' 
