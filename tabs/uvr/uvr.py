@@ -55,7 +55,7 @@ def separate_audio_from_url(url):
     
     # Define output paths.
     vocals_path = os.path.join(audio_root, 'Vocals.wav')
-    instrumental_path = os.path.join(download_dir, 'Instrumental.wav')
+    instrumental_path = os.path.join(audio_root, 'Instrumental.wav')
     vocals_reverb_path = os.path.join(audio_root, 'Vocals (Reverb).wav')
     vocals_no_reverb_path = os.path.join(audio_root, 'Vocals (No Reverb).wav')
     lead_vocals_path = os.path.join(audio_root, 'Lead Vocals.wav')
@@ -64,7 +64,7 @@ def separate_audio_from_url(url):
     # --- Stage 1: Split into Vocals and Instrumental ---
     separator.load_model(model_filename='model_bs_roformer_ep_317_sdr_12.9755.ckpt')
     voc_inst = separator.separate(input_audio)
-    os.rename(os.path.join(download_dir, voc_inst[0]), instrumental_path)
+    os.rename(os.path.join(audio_root, voc_inst[0]), instrumental_path)
     os.rename(os.path.join(audio_root, voc_inst[1]), vocals_path)
     
     # --- Stage 2: Process Vocals (DeEcho-DeReverb) ---
