@@ -54,30 +54,30 @@ def separate_audio_from_url(url):
     separator = Separator(output_dir=audio_root)
     
     # Define output paths.
-    vocals_path = os.path.join(output_dir, 'Vocals.wav')
+    vocals_path = os.path.join(audio_root, 'Vocals.wav')
     instrumental_path = os.path.join(download_dir, 'Instrumental.wav')
-    vocals_reverb_path = os.path.join(output_dir, 'Vocals (Reverb).wav')
-    vocals_no_reverb_path = os.path.join(output_dir, 'Vocals (No Reverb).wav')
-    lead_vocals_path = os.path.join(output_dir, 'Lead Vocals.wav')
-    backing_vocals_path = os.path.join(output_dir, 'Backing Vocals.wav')
+    vocals_reverb_path = os.path.join(audio_root, 'Vocals (Reverb).wav')
+    vocals_no_reverb_path = os.path.join(audio_root, 'Vocals (No Reverb).wav')
+    lead_vocals_path = os.path.join(audio_root, 'Lead Vocals.wav')
+    backing_vocals_path = os.path.join(audio_root, 'Backing Vocals.wav')
     
     # --- Stage 1: Split into Vocals and Instrumental ---
     separator.load_model(model_filename='model_bs_roformer_ep_317_sdr_12.9755.ckpt')
     voc_inst = separator.separate(input_audio)
-    os.rename(os.path.join(output_dir, voc_inst[0]), instrumental_path)
-    os.rename(os.path.join(output_dir, voc_inst[1]), vocals_path)
+    os.rename(os.path.join(download_dir, voc_inst[0]), instrumental_path)
+    os.rename(os.path.join(audio_root, voc_inst[1]), vocals_path)
     
     # --- Stage 2: Process Vocals (DeEcho-DeReverb) ---
     separator.load_model(model_filename='UVR-DeEcho-DeReverb.pth')
     voc_no_reverb_output = separator.separate(vocals_path)
-    os.rename(os.path.join(output_dir, voc_no_reverb_output[0]), vocals_no_reverb_path)
-    os.rename(os.path.join(output_dir, voc_no_reverb_output[1]), vocals_reverb_path)
+    os.rename(os.path.join(audio_root, voc_no_reverb_output[0]), vocals_no_reverb_path)
+    os.rename(os.path.join(audio_root, voc_no_reverb_output[1]), vocals_reverb_path)
     
     # --- Stage 3: Separate Backing and Lead Vocals ---
     separator.load_model(model_filename='mel_band_roformer_karaoke_aufr33_viperx_sdr_10.1956.ckpt')
     backing_voc = separator.separate(vocals_no_reverb_path)
-    os.rename(os.path.join(output_dir, backing_voc[0]), backing_vocals_path)
-    os.rename(os.path.join(output_dir, backing_voc[1]), lead_vocals_path)
+    os.rename(os.path.join(audio_root, backing_voc[0]), backing_vocals_path)
+    os.rename(os.path.join(audio_root, backing_voc[1]), lead_vocals_path)
     
     return (instrumental_path, vocals_path, vocals_reverb_path, 
             vocals_no_reverb_path, lead_vocals_path, backing_vocals_path)
